@@ -1,0 +1,81 @@
+[2026-06-11T13:41:06Z] starting literature sweep
+[2026-06-11T13:41:08Z] retrieved 200 works for query 'robot impedance control skill learning' page 1
+[2026-06-11T13:41:10Z] retrieved 200 works for query 'robot impedance control skill learning' page 2
+[2026-06-11T13:41:11Z] cache now has 400 raw works
+[2026-06-11T13:41:16Z] retrieved 200 works for query 'variable impedance control robot learning manipulation' page 1
+[2026-06-11T13:41:18Z] retrieved 200 works for query 'variable impedance control robot learning manipulation' page 2
+[2026-06-11T13:41:20Z] cache now has 800 raw works
+[2026-06-11T13:41:22Z] retrieved 200 works for query 'admittance control learning from demonstration robot contact' page 1
+[2026-06-11T13:41:24Z] retrieved 200 works for query 'admittance control learning from demonstration robot contact' page 2
+[2026-06-11T13:41:26Z] cache now has 1200 raw works
+[2026-06-11T13:41:28Z] retrieved 200 works for query 'force control robot skill learning contact rich manipulation' page 1
+[2026-06-11T13:41:29Z] retrieved 200 works for query 'force control robot skill learning contact rich manipulation' page 2
+[2026-06-11T13:41:32Z] cache now has 1600 raw works
+[2026-06-11T13:41:34Z] retrieved 200 works for query 'dynamic movement primitives impedance robot learning' page 1
+[2026-06-11T13:41:36Z] retrieved 200 works for query 'dynamic movement primitives impedance robot learning' page 2
+[2026-06-11T13:41:40Z] cache now has 2000 raw works
+[2026-06-11T13:41:42Z] retrieved 200 works for query 'movement primitives robot skill learning contact' page 1
+[2026-06-11T13:41:44Z] retrieved 200 works for query 'movement primitives robot skill learning contact' page 2
+[2026-06-11T13:41:48Z] cache now has 2400 raw works
+[2026-06-11T13:41:54Z] wrote C:\Users\wangz\robotics_60_paper_batch\17_impedance_tokenization_for_skill_learning\docs\related_work_matrix.csv with 1580 rows
+[2026-06-11T13:47:25Z] starting literature sweep
+[2026-06-11T13:47:26Z] loaded 2400 cached raw works
+[2026-06-11T13:47:27Z] retrieved 200 works for query 'learning from demonstration compliant manipulation force' page 1
+[2026-06-11T13:47:29Z] retrieved 200 works for query 'learning from demonstration compliant manipulation force' page 2
+[2026-06-11T13:47:33Z] cache now has 2800 raw works
+[2026-06-11T13:47:35Z] retrieved 200 works for query 'contact rich manipulation robot learning force tactile' page 1
+[2026-06-11T13:47:37Z] retrieved 200 works for query 'contact rich manipulation robot learning force tactile' page 2
+[2026-06-11T13:47:45Z] cache now has 3200 raw works
+[2026-06-11T13:47:47Z] retrieved 200 works for query 'tactile manipulation force control robot learning' page 1
+[2026-06-11T13:47:49Z] retrieved 200 works for query 'tactile manipulation force control robot learning' page 2
+[2026-06-11T13:47:55Z] cache now has 3600 raw works
+[2026-06-11T13:47:56Z] retrieved 200 works for query 'robot manipulation skill primitives discrete latent actions' page 1
+[2026-06-11T13:47:58Z] retrieved 200 works for query 'robot manipulation skill primitives discrete latent actions' page 2
+[2026-06-11T13:48:08Z] cache now has 4000 raw works
+[2026-06-11T13:48:10Z] retrieved 200 works for query 'vector quantization robot action tokenization skill learning' page 1
+[2026-06-11T13:48:12Z] retrieved 200 works for query 'vector quantization robot action tokenization skill learning' page 2
+[2026-06-11T13:48:21Z] cache now has 4400 raw works
+[2026-06-11T13:48:24Z] retrieved 200 works for query 'discrete latent action robotics imitation learning' page 1
+[2026-06-11T13:48:26Z] retrieved 200 works for query 'discrete latent action robotics imitation learning' page 2
+[2026-06-11T13:48:35Z] cache now has 4800 raw works
+[2026-06-11T13:48:36Z] retrieved 200 works for query 'behavior cloning action tokenization robot manipulation' page 1
+[2026-06-11T13:48:38Z] retrieved 200 works for query 'behavior cloning action tokenization robot manipulation' page 2
+[2026-06-11T13:48:48Z] cache now has 5200 raw works
+[2026-06-11T13:48:50Z] retrieved 200 works for query 'robot foundation model action tokenization manipulation' page 1
+[2026-06-11T13:48:52Z] retrieved 200 works for query 'robot foundation model action tokenization manipulation' page 2
+[2026-06-11T13:49:05Z] cache now has 5600 raw works
+[2026-06-11T13:49:07Z] retrieved 200 works for query 'visuomotor policy action chunking robot manipulation' page 1
+[2026-06-11T13:49:09Z] retrieved 200 works for query 'visuomotor policy action chunking robot manipulation' page 2
+[2026-06-11T13:49:20Z] cache now has 6000 raw works
+[2026-06-11T13:49:21Z] retrieved 200 works for query 'diffusion policy robot manipulation action chunking' page 1
+[2026-06-11T13:49:23Z] retrieved 200 works for query 'diffusion policy robot manipulation action chunking' page 2
+[2026-06-11T13:49:37Z] cache now has 6400 raw works
+[2026-06-11T13:49:38Z] retrieved 200 works for query 'options skill learning robotics manipulation' page 1
+[2026-06-11T13:49:41Z] retrieved 200 works for query 'options skill learning robotics manipulation' page 2
+[2026-06-11T13:49:54Z] cache now has 6800 raw works
+[2026-06-11T13:49:56Z] retrieved 200 works for query 'passivity based robot control learning impedance' page 1
+[2026-06-11T13:49:58Z] retrieved 200 works for query 'passivity based robot control learning impedance' page 2
+[2026-06-11T13:50:12Z] cache now has 7200 raw works
+[2026-06-11T13:50:14Z] retrieved 200 works for query 'hybrid force position control robot manipulation' page 1
+[2026-06-11T13:50:16Z] retrieved 200 works for query 'hybrid force position control robot manipulation' page 2
+[2026-06-11T13:50:32Z] cache now has 7600 raw works
+[2026-06-11T13:50:34Z] retrieved 200 works for query 'compliant contact manipulation learning control robot' page 1
+[2026-06-11T13:50:36Z] retrieved 200 works for query 'compliant contact manipulation learning control robot' page 2
+[2026-06-11T13:50:52Z] cache now has 8000 raw works
+[2026-06-11T13:50:54Z] retrieved 200 works for query 'variable stiffness actuator robot learning control' page 1
+[2026-06-11T13:50:56Z] retrieved 200 works for query 'variable stiffness actuator robot learning control' page 2
+[2026-06-11T13:51:13Z] cache now has 8400 raw works
+[2026-06-11T13:51:15Z] retrieved 200 works for query 'interaction primitives robot learning from demonstration' page 1
+[2026-06-11T13:51:17Z] retrieved 200 works for query 'interaction primitives robot learning from demonstration' page 2
+[2026-06-11T13:51:36Z] cache now has 8800 raw works
+[2026-06-11T13:51:38Z] retrieved 200 works for query 'probabilistic movement primitives force control robot' page 1
+[2026-06-11T13:51:39Z] retrieved 200 works for query 'probabilistic movement primitives force control robot' page 2
+[2026-06-11T13:51:59Z] cache now has 9200 raw works
+[2026-06-11T13:52:01Z] retrieved 200 works for query 'operational space control impedance robot manipulation' page 1
+[2026-06-11T13:52:06Z] retrieved 200 works for query 'operational space control impedance robot manipulation' page 2
+[2026-06-11T13:52:25Z] cache now has 9600 raw works
+[2026-06-11T13:52:32Z] wrote C:\Users\wangz\robotics_60_paper_batch\17_impedance_tokenization_for_skill_learning\docs\related_work_matrix.csv with 5512 rows
+[2026-06-11T13:52:32Z] fatal literature script exception captured: [Errno 22] Invalid argument
+[2026-06-11T13:56:05Z] starting literature sweep
+[2026-06-11T13:56:07Z] loaded 9600 cached raw works
+[2026-06-11T13:56:13Z] wrote C:\Users\wangz\robotics_60_paper_batch\17_impedance_tokenization_for_skill_learning\docs\related_work_matrix.csv with 5512 rows
