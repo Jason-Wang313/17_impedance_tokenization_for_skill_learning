@@ -24,9 +24,16 @@
 \begin{document}
 
 \maketitle
+\noindent\textbf{Submission-hardening v2, 2026-06-13.}
+Added token-parameter stress tests for admittance scale and positive-work budget.
+The paper is now explicit that impedance tokenization is not calibration-free:
+the token library must cover the physical port laws needed at deployment.
 
 \begin{abstract}
 Most robot action-token methods treat a token as a kinematic object: a short pose trajectory, a discretized motor command, or a latent action vector. This is a poor semantic unit for contact-rich manipulation, where the same displacement can mean ``barely touch'' or ``dangerously overload'' depending on environment stiffness. We argue for impedance tokens: discrete skill symbols whose denotation is a closed-loop physical interaction law. Each token specifies a force target, tangential intent, compliance/admittance, damping, and a bounded positive-work budget. This changes the central mechanism from predicting motion chunks to composing passive force-conditioned controllers. A 5,512-paper automated hostile sweep shows that learned impedance, force control, movement primitives, and action tokenization are all prior art; the remaining novelty is the token semantics, not any one ingredient. We formalize a one-dimensional contact case where kinematic tokens incur force error proportional to stiffness mismatch while an admissible force-conditioned token converges to the commanded force. In a reproducible contact-wiping simulator covering 2,304 held-out stiffness/friction/offset cases, impedance tokens reduce mean absolute force error from 9.15 N for kinematic chunks and 8.42 N for gain schedules to 1.63 N, while eliminating over-force safety violations in this model. The result is not a real-robot validation; it is evidence that the common assumption ``token first, controller later'' hides a mechanism-level failure mode in contact-rich skill learning.
+A v2 token-parameter stress shows the boundary: 0.25x admittance raises force error
+to 4.22 N and contact loss to 0.276, while a 0.05 J work budget raises force error
+to 3.97 N and contact loss to 0.140.
 \end{abstract}
 
 \section{Introduction}
@@ -135,6 +142,21 @@ We implement a contact-wiping task in the experiment script shipped with the rep
 \paragraph{Results.}
 Table~\ref{tab:aggregate} shows that impedance tokens reduce mean absolute force error to 1.63 N, compared with 9.15 N for kinematic chunks and 8.42 N for gain schedules. They also produce zero over-force safety violations in this simulator, while kinematic chunks violate the safety threshold in 31.0 percent of wipe steps and gain schedules in 25.0 percent. Figure~\ref{fig:stiffness} shows the expected shape: kinematic methods are acceptable near training stiffness but degrade rapidly under stiffness shift. Impedance tokens have a small contact-loss rate because the energy budget and force-conditioned release can be conservative in soft/offset cases.
 
+\begin{table}[t]
+\centering
+\caption{V2 token-parameter stress for the impedance-token method. The baseline is the token used in Table~\ref{tab:aggregate}.}
+\label{tab:token-stress}
+\input{../results/token_parameter_table.tex}
+\end{table}
+
+Table~\ref{tab:token-stress} attacks the token-library assumption. If the token set
+does not include sufficient admittance, the method becomes conservative: 0.25x
+admittance raises mean force error to 4.22 N and contact loss to 0.276. If the
+positive-work budget is too tight, the token cannot write enough contact force:
+a 0.05 J budget raises force error to 3.97 N and contact loss to 0.140. Thus the
+supported claim is not that any impedance vocabulary works; the learned or chosen
+tokens must cover the needed physical port laws.
+
 \paragraph{Reproducibility.}
 The repository contains the generated metrics in `\texttt{results/experiment\_metrics.csv}', aggregate tables in `\texttt{results/}', and the literature artifacts in `\texttt{docs/}'. Running `\texttt{python scripts/run\_impedance\_token\_experiment.py}' regenerates the experiment table and figures. Running `\texttt{python scripts/validate\_artifacts.py}' checks the required literature and experiment counts.
 
@@ -151,6 +173,8 @@ RT-1 tokenizes robot actions for scalable sequence prediction \citep{brohan2023r
 
 \paragraph{Limitations.}
 The experiment is a low-dimensional simulator, not a hardware study. The formal check assumes linear contact and immediate force measurement. The implemented token set is hand-specified rather than learned from demonstrations. The literature sweep is automated from metadata and abstracts; it is adversarial and broad, but not a full manual systematic review. The strongest honest readiness judgment is therefore workshop or revise, not submit-ready ICLR main-track.
+The v2 token-parameter stress adds a further limitation: poor admittance or work-budget
+coverage can erase much of the advantage even in the toy simulator.
 
 \section{Conclusion}
 

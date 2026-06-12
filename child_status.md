@@ -40,3 +40,20 @@ Completed: literature/evidence validated, ICLR-style paper compiled, PDF copied 
 
 ## Next
 - Commit and push this final status update.
+
+Exit code: 0
+End time: 2026-06-11 15:08:53 +01:00
+PDF exists: True
+
+## Submission-hardening v2 terminal status
+
+Checked: 2026-06-13 00:49:12 +01:00
+
+- Added token-parameter stress for admittance scale and positive-work budget.
+- Baseline impedance token: force error 1.629 N, safety violation 0.000, contact loss 0.019.
+- 0.25x admittance token: force error 4.223 N, contact loss 0.276, tangential distance 0.189.
+- 0.05 J work-budget token: force error 3.968 N, contact loss 0.140, tangential distance 0.202.
+- Rebuilt the manuscript and copied the canonical v2 PDF to `C:/Users/wangz/Downloads/17.pdf` (210,122 bytes).
+- Removed tracked local build artifact `paper/main.pdf`.
+- Terminal decision: workshop-only / revise before main-conference submission.
+- No new Desktop copy created during v2 hardening.

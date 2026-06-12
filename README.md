@@ -75,3 +75,11 @@ C:\Users\wangz\Downloads\17.pdf
 ## Honest Scope
 
 This is not a real-robot validation. The strongest evidence is a formal one-dimensional contact check plus a 2,304-case toy contact-wiping simulator. The paper intentionally avoids claiming first learned impedance, first discrete robot action tokens, or global nonlinear passivity.
+
+## Submission-Hardening v2
+
+- Added token-parameter stress in `results/token_parameter_stress.csv`.
+- Baseline impedance token: mean absolute force error 1.629 N, safety violation 0.000, contact loss 0.019.
+- 0.25x admittance token: force error 4.223 N and contact loss 0.276.
+- 0.05 J work-budget token: force error 3.968 N and contact loss 0.140.
+- Decision remains workshop-only until demonstrated with learned token libraries, hardware contact, and stronger continuous-controller baselines.

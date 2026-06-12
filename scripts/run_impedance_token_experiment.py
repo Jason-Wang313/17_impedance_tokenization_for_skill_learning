@@ -85,7 +85,7 @@ def gain_schedule_policy(t, force, p_cmd):
     return target, vt, 0.0
 
 
-def impedance_token_policy(t, force, p_cmd, energy_remaining):
+def impedance_token_policy(t, force, p_cmd, energy_remaining, admittance_scale=1.0):
     if t < WIPE_START:
         desired = TARGET_FORCE * smoothstep(t / WIPE_START)
         vt = 0.0
@@ -98,7 +98,7 @@ def impedance_token_policy(t, force, p_cmd, energy_remaining):
 
     # The token is a local admittance law: force error directly changes
     # penetration intent. This is the semantic difference from motion chunks.
-    admittance = 0.018
+    admittance = 0.018 * admittance_scale
     damping = 0.88
     raw_dp = admittance * (desired - force) * DT
     raw_dp *= damping
@@ -111,7 +111,7 @@ def impedance_token_policy(t, force, p_cmd, energy_remaining):
     return next_p_cmd, vt, injected
 
 
-def simulate(method, env, seed):
+def simulate(method, env, seed, admittance_scale=1.0, energy_budget=3.0):
     rng = np.random.default_rng(seed)
     p = max(0.0, env.offset)
     p_cmd = 0.0
@@ -136,7 +136,7 @@ def simulate(method, env, seed):
         elif method == "gain_schedule":
             p_cmd, vt_cmd, injected = gain_schedule_policy(t, force, p_cmd)
         elif method == "impedance_token":
-            p_cmd, vt_cmd, injected = impedance_token_policy(t, force, p_cmd, 3.0 - energy_used)
+            p_cmd, vt_cmd, injected = impedance_token_policy(t, force, p_cmd, energy_budget - energy_used, admittance_scale)
         else:
             raise ValueError(method)
 
@@ -193,6 +193,54 @@ def run_grid():
                         env = Env(stiffness=k, friction=mu, offset=offset, noise=0.12)
                         rows.append(simulate(method, env, seed))
     return rows
+
+
+def run_token_parameter_stress():
+    scenarios = [
+        ("baseline", 1.0, 3.0),
+        ("low_admittance_0p25", 0.25, 3.0),
+        ("low_admittance_0p50", 0.50, 3.0),
+        ("high_admittance_2x", 2.0, 3.0),
+        ("high_admittance_4x", 4.0, 3.0),
+        ("very_tight_energy_0p05", 1.0, 0.05),
+        ("tight_energy_0p15", 1.0, 0.15),
+        ("tight_energy_0p5", 1.0, 0.5),
+    ]
+    stiffnesses = [35.0, 50.0, 75.0, 100.0, 150.0, 225.0, 325.0, 475.0]
+    frictions = [0.10, 0.30, 0.60, 0.95]
+    offsets = [-0.010, 0.000, 0.015]
+    seeds = list(range(8))
+    out = []
+    for label, admittance_scale, energy_budget in scenarios:
+        rows = []
+        for k in stiffnesses:
+            for mu in frictions:
+                for offset in offsets:
+                    for seed in seeds:
+                        env = Env(stiffness=k, friction=mu, offset=offset, noise=0.12)
+                        rows.append(
+                            simulate(
+                                "impedance_token",
+                                env,
+                                seed,
+                                admittance_scale=admittance_scale,
+                                energy_budget=energy_budget,
+                            )
+                        )
+        out.append(
+            {
+                "scenario": label,
+                "admittance_scale": admittance_scale,
+                "energy_budget": energy_budget,
+                "runs": len(rows),
+                "mean_abs_force_error": float(np.mean([r.mean_abs_force_error for r in rows])),
+                "safety_violation_rate": float(np.mean([r.safety_violation_rate for r in rows])),
+                "contact_loss_rate": float(np.mean([r.contact_loss_rate for r in rows])),
+                "tangential_distance": float(np.mean([r.tangential_distance for r in rows])),
+                "injected_energy": float(np.mean([r.injected_energy for r in rows])),
+            }
+        )
+    return out
 
 
 def write_metrics(rows):
@@ -364,6 +412,71 @@ def write_latex_table(agg):
     return path
 
 
+def write_token_parameter_stress(stress_rows):
+    csv_path = os.path.join(RESULTS, "token_parameter_stress.csv")
+    fields = [
+        "scenario",
+        "admittance_scale",
+        "energy_budget",
+        "runs",
+        "mean_abs_force_error",
+        "safety_violation_rate",
+        "contact_loss_rate",
+        "tangential_distance",
+        "injected_energy",
+    ]
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        writer.writerows(stress_rows)
+
+    labels = {
+        "baseline": "baseline",
+        "low_admittance_0p25": "0.25x admittance",
+        "low_admittance_0p50": "0.50x admittance",
+        "high_admittance_2x": "2x admittance",
+        "high_admittance_4x": "4x admittance",
+        "very_tight_energy_0p05": "0.05 J budget",
+        "tight_energy_0p15": "0.15 J budget",
+        "tight_energy_0p5": "0.5 J budget",
+    }
+    tex_path = os.path.join(RESULTS, "token_parameter_table.tex")
+    with open(tex_path, "w", encoding="utf-8") as f:
+        f.write("\\begin{tabular}{lrrrr}\\toprule\n")
+        f.write("Token variant & Force err. $\\downarrow$ & Safety frac. $\\downarrow$ & Loss frac. $\\downarrow$ & Wipe dist. $\\uparrow$ \\\\\n")
+        f.write("\\midrule\n")
+        for row in stress_rows:
+            f.write(
+                "{} & {:.2f} & {:.3f} & {:.3f} & {:.3f} \\\\\n".format(
+                    labels[row["scenario"]],
+                    row["mean_abs_force_error"],
+                    row["safety_violation_rate"],
+                    row["contact_loss_rate"],
+                    row["tangential_distance"],
+                )
+            )
+        f.write("\\bottomrule\n\\end{tabular}\n")
+
+    md_path = os.path.join(RESULTS, "experiment_summary.md")
+    with open(md_path, "a", encoding="utf-8") as f:
+        f.write("\n## V2 token-parameter stress\n\n")
+        f.write("The hardening stress reruns the impedance-token method while perturbing the token's admittance scale or positive-work budget.\n\n")
+        f.write("| token variant | mean abs force error | safety violation rate | contact loss rate | tangential distance |\n")
+        f.write("|---|---:|---:|---:|---:|\n")
+        for row in stress_rows:
+            f.write(
+                "| {} | {:.3f} | {:.3f} | {:.3f} | {:.3f} |\n".format(
+                    row["scenario"],
+                    row["mean_abs_force_error"],
+                    row["safety_violation_rate"],
+                    row["contact_loss_rate"],
+                    row["tangential_distance"],
+                )
+            )
+        f.write("\nInterpretation: impedance tokenization is not calibration-free. If the discrete token set lacks the right admittance or work budget, the advantage narrows or fails.\n")
+    return csv_path, tex_path
+
+
 def main():
     os.makedirs(RESULTS, exist_ok=True)
     os.makedirs(FIGURES, exist_ok=True)
@@ -372,10 +485,14 @@ def main():
     agg = aggregate(rows)
     summary_path = write_summary(agg)
     table_path = write_latex_table(agg)
+    stress_rows = run_token_parameter_stress()
+    stress_csv, stress_tex = write_token_parameter_stress(stress_rows)
     plot_results(agg)
     print(f"wrote {metrics_path}")
     print(f"wrote {summary_path}")
     print(f"wrote {table_path}")
+    print(f"wrote {stress_csv}")
+    print(f"wrote {stress_tex}")
     print("wrote figures/force_error_by_stiffness.pdf and figures/safety_by_stiffness.pdf")
 
 

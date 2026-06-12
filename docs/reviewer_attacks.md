@@ -14,3 +14,7 @@
    - Response: evaluate token-count sensitivity and mark precision/coverage limits.
 7. Literature coverage is automated.
    - Response: report it as metadata/abstract-level hostile sweep; cite the CSV and avoid overclaiming full systematic review.
+
+## V2 token-library stress
+
+The hardening pass adds a token-parameter stress. The baseline impedance token has mean force error 1.629 N and contact loss 0.019. Reducing admittance to 0.25x raises force error to 4.223 N and contact loss to 0.276. A very tight 0.05 J work budget raises force error to 3.968 N and contact loss to 0.140. The rebuttal to discretization concerns is therefore honest: token semantics help, but the vocabulary still needs adequate physical parameter coverage.
